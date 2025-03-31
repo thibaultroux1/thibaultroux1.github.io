@@ -244,3 +244,57 @@ footer {
     }
     /* Further fine-tuning if needed */
 }
+
+/* --- Animation Styles --- */
+
+/*
+   Define the initial state of elements that will be animated.
+   They start invisible and slightly moved (e.g., downwards).
+   The 'transition' property dictates how the change to the
+   'is-visible' state happens (duration, easing).
+*/
+.animate-on-scroll {
+    opacity: 0;
+    transform: translateY(30px); /* Start slightly lower */
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/*
+   Define the final state of the elements once they become visible.
+   This class ('is-visible') will be added by the JavaScript.
+*/
+.animate-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0); /* Move back to original position */
+}
+
+/* Example for project cards inside .project-grid */
+.project-grid .project-card.animate-on-scroll.is-visible {
+    /* Apply delays based on child order */
+    transition-delay: calc(0.1s * var(--animation-order, 0));
+}
+
+/* Example for job articles inside #experience */
+#experience .job.animate-on-scroll.is-visible {
+    transition-delay: calc(0.1s * var(--animation-order, 0));
+}
+
+/*
+   Note on transition-delay: You might need a tiny bit of JS
+   to set the --animation-order custom property dynamically if you
+   want complex staggering, OR manually set it in HTML like:
+   <article class="job animate-on-scroll" style="--animation-order: 1;"></article>
+   <article class="job animate-on-scroll" style="--animation-order: 2;"></article>
+   The simple CSS above without --animation-order will make all items
+   in a section appear simultaneously once the *section* is visible.
+   Adding the delay logic makes them pop in one after another.
+   Let's stick to the simpler simultaneous approach first unless you want staggering.
+*/
+
+
+/* --- Smooth Scrolling Behavior (Browser controlled) --- */
+/* This CSS rule encourages smooth scrolling on the whole page when
+   navigating via anchors or JS scrolling methods. It complements the JS. */
+html {
+    scroll-behavior: smooth;
+}
